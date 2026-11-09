@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 namespace OldHUDRewrite
 {
+    //Copyright (c) 2024 benjaminpants
+    //Licensed under the MIT License(MIT)
     public class AssetManagerIThink
     {
         public Dictionary<Type, Dictionary<string, object>> Storage = new Dictionary<Type, Dictionary<string, object>>();
