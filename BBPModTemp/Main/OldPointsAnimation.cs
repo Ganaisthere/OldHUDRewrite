@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-namespace OldHUDRewrite
+namespace LegacyUIs.Main
 {
     public class OldPointsAnimation : MonoBehaviour
     {
@@ -98,8 +98,12 @@ namespace OldHUDRewrite
             text.rectTransform.anchoredPosition3D = new Vector3(0f, -16f, 0f);
             text.enabled = false;
             displayPoints = addedValue;
-            Update();
-            yield return new WaitForSeconds(1f);
+            timer = 0f;
+            while (timer < 1f)
+            {
+                timer += Time.deltaTime;
+                yield return null;
+            }
             if (additionTmps.Contains(text))
             {
                 additionTmps.Remove(text);

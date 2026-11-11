@@ -1,12 +1,11 @@
 ﻿using HarmonyLib;
 
-namespace OldHUDRewrite.Patches
+namespace LegacyUIs.Patches
 {
     [HarmonyPatch(typeof(EnvironmentController))]
     public class EnvironmentControllerPatches
     {
-        [HarmonyPatch("Awake")]
-        [HarmonyPrefix]
+        [HarmonyPatch("Awake"), HarmonyPrefix]
         public static void AwakePrefix(EnvironmentController __instance)
         {
             if (BasePlugin.Instance.ConfigOldEventNotification.Value)

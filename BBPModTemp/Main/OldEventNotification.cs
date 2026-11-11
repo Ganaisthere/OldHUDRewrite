@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-namespace OldHUDRewrite
+namespace LegacyUIs.Main
 {
     public class OldEventNotification : MonoBehaviour
     {
@@ -12,6 +12,7 @@ namespace OldHUDRewrite
 
         public RawImage backGround;
         public TextMeshProUGUI eventText;
+        public IEnumerator enumerator;
 
         public void Awake()
         {
@@ -58,7 +59,12 @@ namespace OldHUDRewrite
             {
                 return;
             }
-            StartCoroutine(Announce(randomEvent.GetType().Name));
+            if (enumerator != null)
+            {
+                StopCoroutine(enumerator);
+            }
+            enumerator = Announce(randomEvent.GetType().Name);
+            StartCoroutine(enumerator);
         }
 
         public IEnumerator Announce(string text)
@@ -77,6 +83,8 @@ namespace OldHUDRewrite
 
             backGround.gameObject.SetActive(false);
             eventText.gameObject.SetActive(false);
+            enumerator = null;
+            yield break;
         }
     }
 }

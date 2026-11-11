@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace OldHUDRewrite.Patches
+namespace LegacyUIs.Patches
 {
     [HarmonyPatch(typeof(BaldiTV))]
     public class BaldiTVPatches

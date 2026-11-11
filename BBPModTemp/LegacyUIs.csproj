@@ -56,14 +56,8 @@
     <Reference Include="MonoMod.Utils">
       <HintPath>..\..\..\..\..\steam\steamapps\common\Baldi's Basic Plus\BepInEx\core\MonoMod.Utils.dll</HintPath>
     </Reference>
-    <Reference Include="MTM101BaldAPI">
-      <HintPath>..\..\..\..\..\DESKTOP\新建文件夹\MTM101BaldAPI.dll</HintPath>
-    </Reference>
     <Reference Include="NavMeshComponents">
       <HintPath>..\..\..\..\..\steam\steamapps\common\Baldi's Basic Plus\BALDI_Data\Managed\NavMeshComponents.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\..\DESKTOP\新建文件夹\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Rewired_Core">
       <HintPath>..\..\..\..\..\steam\steamapps\common\Baldi's Basic Plus\BALDI_Data\Managed\Rewired_Core.dll</HintPath>

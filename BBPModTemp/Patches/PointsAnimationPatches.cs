@@ -1,7 +1,8 @@
 ﻿using HarmonyLib;
+using LegacyUIs.Main;
 using System;
 
-namespace OldHUDRewrite.Patches
+namespace LegacyUIs.Patches
 {
     [HarmonyPatch(typeof(PointsAnimation))]
     public class PointsAnimationPatches

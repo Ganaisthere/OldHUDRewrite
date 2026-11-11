@@ -1,14 +1,14 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
-using OldHUDRewrite.Patches;
+using LegacyUIs.Patches;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace OldHUDRewrite
+namespace LegacyUIs
 {
-    [BepInPlugin("ganaisthere.plus.oldhudrewrite", "Old HUD - Rewrited", "0.1.0.0")]
+    [BepInPlugin("ganaisthere.plus.legacyuis", "Legacy UIs - AKA Old HUD Rewrited", "0.1.0.0")]
     public class BasePlugin : BaseUnityPlugin
     {
         public static BasePlugin Instance { get; internal set; }
@@ -21,6 +21,11 @@ namespace OldHUDRewrite
             ConfigStaminometerStyle;
 
         public ConfigEntry<bool>
+            ConfigOldMapColor,
+            ConfigFGPDPauseScreen,
+            ConfigOldItemSlots,
+            ConfigRemoveGauge,
+            ConfigDetentionTimerDisplay,
             ConfigItemUsingAnimations,
             ConfigOldEventNotification,
             ConfigOldYTPsDisplay,
@@ -34,6 +39,41 @@ namespace OldHUDRewrite
 
         internal void Awake()
         {
+            ConfigOldMapColor = Config.Bind
+            (
+                "General",
+                "Old Map Color",
+                true,
+                "If true, Old Map Color."
+            );
+            ConfigFGPDPauseScreen = Config.Bind
+            (
+                "General",
+                "FGPD Pause Screen",
+                true,
+                "If true, FGPD Pause Screen."
+            );
+            ConfigOldItemSlots = Config.Bind
+            (
+                "General",
+                "BBC Item Slots",
+                true,
+                "If true, BBC Item Slots."
+            );
+            ConfigRemoveGauge = Config.Bind
+            (
+                "General",
+                "Remove Gauge",
+                true,
+                "If true, Remove Gauge."
+            );
+            ConfigDetentionTimerDisplay = Config.Bind
+            (
+                "General",
+                "Detention Timer Display",
+                true,
+                "If true, Detention Timer Display."
+            );
             ConfigItemUsingAnimations = Config.Bind
             (
                 "General",
@@ -124,6 +164,7 @@ namespace OldHUDRewrite
                 Path.Combine(Other.GetModFolder(this), "Subtitles_English.json")
             };
             AddTexture2D("PlaceHolder.png", "Textures");
+            AddTexture2D("OldItemSlot.png", "Textures");
             AddAudioClip("EventRing.ogg", "SoundObjects", true, "Sfx_EventRing");
         }
 

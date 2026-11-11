@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace OldHUDRewrite.Patches
+namespace LegacyUIs.Patches
 {
     [HarmonyPatch(typeof(LocalizationManager))]
     public class LocalizationManagerPatches

@@ -1,7 +1,8 @@
 ﻿using HarmonyLib;
+using LegacyUIs.Main;
 using System;
 
-namespace OldHUDRewrite.Patches
+namespace LegacyUIs.Patches
 {
     [HarmonyPatch(typeof(StoreRoomFunction))]
     public class StoreRoomFunctionPatches
@@ -22,7 +23,10 @@ namespace OldHUDRewrite.Patches
         {
             if (BasePlugin.Instance.ConfigOldYTPsDisplay.Value && OldPointsAnimation.Instance != null)
             {
-                OldPointsAnimation.Instance.ShowDisplay(false);
+                if (OldPointsAnimation.Instance.additionTmps.Count <= 0)
+                {
+                    OldPointsAnimation.Instance.ShowDisplay(false);
+                }
             }
         }
     }

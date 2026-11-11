@@ -3,7 +3,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace OldHUDRewrite
+namespace LegacyUIs.Main
 {
     public class OldStaminometer : MonoBehaviour
     {

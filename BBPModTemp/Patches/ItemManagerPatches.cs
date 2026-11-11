@@ -1,15 +1,20 @@
 ﻿using HarmonyLib;
+using LegacyUIs.Main;
 using UnityEngine;
 
-namespace OldHUDRewrite.Patches
+namespace LegacyUIs.Patches
 {
     [HarmonyPatch(typeof(ItemManager))]
-    public class ItemPatches
+    public class ItemManagerPatches
     {
         [HarmonyPatch("UpdateSelect")]
         [HarmonyPrefix]
         public static void UpdateSelectPostfix(ItemManager __instance)
         {
+            if (OldItemSlots.Instance != null)
+            {
+                return;
+            }
             bool one = BasePlugin.Instance.ConfigBiggerItemIcon.Value;
             bool two = BasePlugin.Instance.ConfigFGPDNothingItemIcon.Value;
             if (!one && !two)
@@ -26,7 +31,7 @@ namespace OldHUDRewrite.Patches
                         sprite = BasePlugin.assetMan.Get<Sprite>("PlaceHolder");
                     }
                 }
-                else if (BasePlugin.Instance.ConfigBiggerItemIcon.Value)
+                else if (one)
                 {
                     sprite = __instance.items[i].itemSpriteLarge;
                 }

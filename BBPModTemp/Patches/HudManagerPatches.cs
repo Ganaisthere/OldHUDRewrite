@@ -1,10 +1,11 @@
 ﻿using HarmonyLib;
+using LegacyUIs.Main;
 using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace OldHUDRewrite.Patches
+namespace LegacyUIs.Patches
 {
     [HarmonyPatch(typeof(HudManager))]
     public class HudManagerPatches
@@ -13,6 +14,28 @@ namespace OldHUDRewrite.Patches
         [HarmonyPostfix]
         public static void AwakePostfix(HudManager __instance)
         {
+            if (BasePlugin.Instance.ConfigOldItemSlots.Value)
+            {
+                __instance.inventory.transform.localScale = Vector3.zero;
+                GameObject gameObject = new GameObject("OldItemSlots");
+                gameObject.transform.SetParent(__instance.transform);
+                gameObject.AddComponent<OldItemSlots>();
+
+                TMP_Text itemTitle = __instance.AccessToolsFieldGetValue<TMP_Text>("itemTitle");
+                itemTitle.font = Other.FindObjectOfTypeWithName<TMP_FontAsset>("COMIC_24_Pro");
+                itemTitle.fontSize = 18f;
+                itemTitle.rectTransform.anchoredPosition3D = new Vector3(-8f, -76f, 0f);
+            }
+            else if (BasePlugin.Instance.ConfigBiggerItemText.Value)
+            {
+                TMP_Text itemTitle = __instance.AccessToolsFieldGetValue<TMP_Text>("itemTitle");
+                itemTitle.font = Other.FindObjectOfTypeWithName<TMP_FontAsset>("COMIC_24_Pro");
+                itemTitle.fontSize = 24f;
+            }
+            if (BasePlugin.Instance.ConfigRemoveGauge.Value)
+            {
+                __instance.gaugeManager.gameObject.transform.localScale = Vector3.zero;
+            }
             StaminometerStyle style = BasePlugin.Instance.ConfigStaminometerStyle.Value;
             if (style != StaminometerStyle.Vanilla)
             {
@@ -42,12 +65,6 @@ namespace OldHUDRewrite.Patches
             if (BasePlugin.Instance.ConfigOldYTPsDisplay.Value && !__instance.gameObject.TryGetComponent<OldPointsAnimation>(out _))
             {
                 __instance.gameObject.AddComponent<OldPointsAnimation>();
-            }
-            if (BasePlugin.Instance.ConfigBiggerItemText.Value)
-            {
-                TMP_Text itemTitle = __instance.AccessToolsFieldGetValue<TMP_Text>("itemTitle");
-                itemTitle.font = Other.FindObjectOfTypeWithName<TMP_FontAsset>("COMIC_24_Pro");
-                itemTitle.fontSize = 24f;
             }
             if (BasePlugin.Instance.ConfigRemoveNotebookIcon.Value)
             {

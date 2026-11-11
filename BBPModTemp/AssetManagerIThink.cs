@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace OldHUDRewrite
+namespace LegacyUIs
 {
     //Copyright (c) 2024 benjaminpants
     //Licensed under the MIT License(MIT)

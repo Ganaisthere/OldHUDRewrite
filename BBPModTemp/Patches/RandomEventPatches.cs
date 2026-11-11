@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
+using LegacyUIs.Main;
 
-namespace OldHUDRewrite.Patches
+namespace LegacyUIs.Patches
 {
     [HarmonyPatch(typeof(RandomEvent))]
     public class RandomEventPatches
