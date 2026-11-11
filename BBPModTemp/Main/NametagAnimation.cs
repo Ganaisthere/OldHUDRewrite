@@ -6,17 +6,7 @@ namespace LegacyUIs.Main
 {
     public class NametagAnimation : MonoBehaviour
     {
-        public static Sprite[] sprites = new Sprite[8]
-            {
-                Other.FindObjectOfTypeWithName<Sprite>("tag0000"),
-                Other.FindObjectOfTypeWithName<Sprite>("tag0001"),
-                Other.FindObjectOfTypeWithName<Sprite>("tag0002"),
-                Other.FindObjectOfTypeWithName<Sprite>("tag0003"),
-                Other.FindObjectOfTypeWithName<Sprite>("tag0004"),
-                Other.FindObjectOfTypeWithName<Sprite>("tag0005"),
-                Other.FindObjectOfTypeWithName<Sprite>("tag0006"),
-                Other.FindObjectOfTypeWithName<Sprite>("tag0007")
-            };
+        public static Sprite[] sprites = null;
         public Item item;
         public Image image;
         public bool ready = false;
@@ -24,6 +14,21 @@ namespace LegacyUIs.Main
 
         public static void Create(int playerNumber, Item item)
         {
+            if (sprites == null)
+            {
+                sprites = new Sprite[8]
+                {
+                    Other.FindObjectOfTypeWithName<Sprite>("tag0000"),
+                    Other.FindObjectOfTypeWithName<Sprite>("tag0001"),
+                    Other.FindObjectOfTypeWithName<Sprite>("tag0002"),
+                    Other.FindObjectOfTypeWithName<Sprite>("tag0003"),
+                    Other.FindObjectOfTypeWithName<Sprite>("tag0004"),
+                    Other.FindObjectOfTypeWithName<Sprite>("tag0005"),
+                    Other.FindObjectOfTypeWithName<Sprite>("tag0006"),
+                    Other.FindObjectOfTypeWithName<Sprite>("tag0007")
+                };
+            }
+
             NametagAnimation animation = new GameObject("NametagAnimation").AddComponent<NametagAnimation>();
             animation.item = item;
             animation.transform.localScale = Vector3.one;

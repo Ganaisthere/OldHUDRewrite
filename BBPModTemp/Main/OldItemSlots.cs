@@ -70,14 +70,16 @@ namespace LegacyUIs.Main
             bool one = BasePlugin.Instance.ConfigBiggerItemIcon.Value;
             bool two = BasePlugin.Instance.ConfigFGPDNothingItemIcon.Value;
             ItemManager manager = Singleton<CoreGameManager>.Instance.GetPlayer(0).itm;
+            Sprite Transparent = Other.FindObjectOfTypeWithName<Sprite>("Transparent");
+            Sprite PlaceHolder = BasePlugin.assetMan.Get<Sprite>("PlaceHolder");
             for (int i = 0; i < 9; i++)
             {
-                Sprite sprite = Other.FindObjectOfTypeWithName<Sprite>("Transparent");
+                Sprite sprite = Transparent;
                 if (manager.items[i].itemType == Items.None)
                 {
                     if (two)
                     {
-                        sprite = BasePlugin.assetMan.Get<Sprite>("PlaceHolder");
+                        sprite = PlaceHolder;
                     }
                 }
                 else if (one)

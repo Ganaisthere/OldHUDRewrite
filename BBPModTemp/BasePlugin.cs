@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace LegacyUIs
 {
-    [BepInPlugin("ganaisthere.plus.legacyuis", "Legacy UIs - AKA Old HUD Rewrited", "0.1.0.0")]
+    [BepInPlugin("ganaisthere.plus.legacyuis", "Legacy UIs - AKA Old HUD Rewritten", "0.1.0.0")]
     public class BasePlugin : BaseUnityPlugin
     {
         public static BasePlugin Instance { get; internal set; }
@@ -17,11 +17,13 @@ namespace LegacyUIs
 
         //----------------------------------------
 
+        public ConfigEntry<OldMap>
+            ConfigOldMap;
+
         public ConfigEntry<StaminometerStyle>
             ConfigStaminometerStyle;
 
         public ConfigEntry<bool>
-            ConfigOldMapColor,
             ConfigFGPDPauseScreen,
             ConfigOldItemSlots,
             ConfigRemoveGauge,
@@ -39,47 +41,51 @@ namespace LegacyUIs
 
         internal void Awake()
         {
-            ConfigOldMapColor = Config.Bind
+            ConfigOldMap = Config.Bind
             (
                 "General",
-                "Old Map Color",
-                true,
-                "If true, Old Map Color."
+                "Old Map",
+                OldMap.OnlyColor,
+                @"Change some map stuffs to more like older version.
+- Disabled: Disable this feature;
+- OnlyColor: Only change some color and map icon of the map;
+- OnlyMapScreen: Only change the map screen;
+- ColorAndMapScreen: Both the color and map screen will change."
             );
             ConfigFGPDPauseScreen = Config.Bind
             (
                 "General",
                 "FGPD Pause Screen",
-                true,
-                "If true, FGPD Pause Screen."
+                false,
+                "If true, game will use FGPD Pause Screen (No option/seed display)."
             );
             ConfigOldItemSlots = Config.Bind
             (
                 "General",
                 "BBC Item Slots",
-                true,
-                "If true, BBC Item Slots."
+                false,
+                "If true, Item Slots will use BBC Item Slots."
             );
             ConfigRemoveGauge = Config.Bind
             (
                 "General",
                 "Remove Gauge",
-                true,
-                "If true, Remove Gauge."
+                false,
+                "If true, the gauge will be removed from the HUD, just like before v0.10."
             );
             ConfigDetentionTimerDisplay = Config.Bind
             (
                 "General",
                 "Detention Timer Display",
                 true,
-                "If true, Detention Timer Display."
+                "If true, the old detention timer display before v0.8 will be restored from the HUD."
             );
             ConfigItemUsingAnimations = Config.Bind
             (
                 "General",
                 "Item Using Animations",
                 true,
-                "If true, Item Using Animations."
+                "If true, the old item using animation before v0.10 will be restored from the HUD. (eg. Faculty Nametag And Techno-Boots/Big Ol' Boots)"
             );
             ConfigStaminometerStyle = Config.Bind
             (
@@ -98,14 +104,14 @@ namespace LegacyUIs
                 "General",
                 "Old Event Notification",
                 true,
-                "If true, Old Event Notification."
+                "If true, the old event notification before v0.6 will be restored from the HUD, and the Baldi TV will be removed."
             );
             ConfigOldYTPsDisplay = Config.Bind
             (
                 "General",
                 "Old YTPs Display",
                 true,
-                "If true, Old YTPs Display."
+                "If true, the old YTPs counter before v0.6 will be restored from the HUD."
             );
             ConfigNoHandOnlyReticle = Config.Bind
             (
@@ -119,42 +125,42 @@ namespace LegacyUIs
                 "General",
                 "No Item Slider Animation",
                 true,
-                "If true, Inventory's item slider animation will be disabled."
+                "If true, the item slots's slide animation will be removed, just like before v0.6."
             );
             ConfigFGPDNothingItemIcon = Config.Bind
             (
                 "General",
                 "FGPD Nothing ItemIcon",
                 true,
-                "If true, Inventory's \'Nothing\' item icon will use \'Item\' sprite from FGPD."
+                "If true, the nothing's placeholder sprite will be restored, just like the Full Game Early Demo."
             );
             ConfigBiggerItemIcon = Config.Bind
             (
                 "General",
                 "Bigger Item Icon",
                 true,
-                "If true, Inventory's item icon will use large icon."
+                "If true, the items icon in the inventory list will become larger, just like before v0.3.3."
             );
             ConfigBiggerItemText = Config.Bind
             (
                 "General",
                 "Bigger Item Text",
                 true,
-                "If true, Not diet bsoda, Will DIET BSODA."
+                "If true, the text below the inventory list will become larger, just like before v0.10."
             );
             ConfigRemoveNotebookIcon = Config.Bind
             (
                 "General",
                 "Remove Notebook Icon",
                 true,
-                "If true, Not (NotebookIcon) 0/0, Only 0/0."
+                "If true, the notebook icon will be removed from the HUD and the notebook counter will be aligned to the left, just like before v0.6."
             );
             ConfigOldNotebooksText = Config.Bind
             (
                 "General",
                 "Old Notebooks Text",
                 true,
-                "If true, 0/0 => 0/0 Notebooks."
+                "If true, the notebook counter will display extended 'notebooks' text after the count, just like before v0.6."
             );
 
             Instance = this;
@@ -234,6 +240,14 @@ namespace LegacyUIs
                 Instance.Logger.LogInfo(data);
             }
         }
+    }
+
+    public enum OldMap
+    {
+        Disabled,
+        OnlyColor,
+        OnlyMapScreen,
+        ColorAndMapScreen
     }
 
     public enum StaminometerStyle

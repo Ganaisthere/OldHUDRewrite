@@ -11,7 +11,8 @@ namespace LegacyUIs.Patches
         [HarmonyPatch("Reveal"), HarmonyPostfix]
         public static void RevealPostfix(MapTile __instance)
         {
-            if (BasePlugin.Instance.ConfigOldMapColor.Value)
+            OldMap oldMap = BasePlugin.Instance.ConfigOldMap.Value;
+            if (oldMap == OldMap.OnlyColor || oldMap == OldMap.ColorAndMapScreen)
             {
                 SpriteRenderer renderer = __instance.SpriteRenderer;
                 if (renderer != null)

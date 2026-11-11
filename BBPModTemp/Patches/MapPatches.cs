@@ -1,6 +1,8 @@
 ﻿using HarmonyLib;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace LegacyUIs.Patches
 {
@@ -10,6 +12,16 @@ namespace LegacyUIs.Patches
     public static class MapPatches
     {
         public static Material OpaqueMat { get; internal set; }
+        public static Dictionary<RoomCategory, Color> roomColors = new Dictionary<RoomCategory, Color>()
+        {
+            {RoomCategory.Faculty, Color.yellow},
+            {RoomCategory.Class, Color.red},
+            {RoomCategory.Office, Color.gray},
+            {RoomCategory.Hall, Color.green},
+            {RoomCategory.Buffer, Color.white},
+            {RoomCategory.Special, Color.white},
+            {RoomCategory.Store, Color.white}
+        };
 
         public static void CreateOpaqueMaterial()
         {
@@ -33,7 +45,8 @@ namespace LegacyUIs.Patches
         [HarmonyPatch("Initialize", new Type[] { typeof(EnvironmentController), typeof(IntVector2) }), HarmonyPostfix]
         public static void InitializePostfix(Map __instance)
         {
-            if (BasePlugin.Instance.ConfigOldMapColor.Value)
+            OldMap oldMap = BasePlugin.Instance.ConfigOldMap.Value;
+            if (oldMap == OldMap.OnlyColor || oldMap == OldMap.ColorAndMapScreen)
             {
                 CreateOpaqueMaterial();
 
@@ -62,12 +75,22 @@ namespace LegacyUIs.Patches
                     }
                 }
             }
+            if (oldMap == OldMap.OnlyMapScreen || oldMap == OldMap.ColorAndMapScreen)
+            {
+                Transform overlayTransform = __instance.transform.Find("Overlay");
+                overlayTransform.Find("ZoomButtons").gameObject.SetActive(false);
+                overlayTransform.Find("Dpad").gameObject.SetActive(false);
+                overlayTransform.Find("Timer").gameObject.SetActive(false);
+                overlayTransform.Find("Markers").gameObject.SetActive(false);
+                overlayTransform.Find("PadSprite").gameObject.GetComponent<Image>().sprite = Other.FindObjectOfTypeWithName<Sprite>("PadZoomSheet_6");
+            }
         }
 
         [HarmonyPatch("Update"), HarmonyPostfix]
-        public static void Update_Postfix(Map __instance)
+        public static void UpdatePostfix(Map __instance)
         {
-            if (BasePlugin.Instance.ConfigOldMapColor.Value)
+            OldMap oldMap = BasePlugin.Instance.ConfigOldMap.Value;
+            if (oldMap == OldMap.OnlyColor || oldMap == OldMap.ColorAndMapScreen)
             {
                 for (int i = 0; i < __instance.size.x; i++)
                 {
@@ -102,12 +125,17 @@ namespace LegacyUIs.Patches
                     }
                 }
             }
+            if (oldMap == OldMap.OnlyMapScreen || oldMap == OldMap.ColorAndMapScreen)
+            {
+                __instance.transform.Find("Grid").gameObject.SetActive(false);
+            }
         }
 
         [HarmonyPatch("Find", new Type[] { typeof(int), typeof(int), typeof(int), typeof(RoomController) }), HarmonyPostfix]
-        public static void Find_Postfix(Map __instance, int posX, int posZ)
+        public static void FindPostfix(Map __instance, int posX, int posZ, RoomController room)
         {
-            if (BasePlugin.Instance.ConfigOldMapColor.Value)
+            OldMap oldMap = BasePlugin.Instance.ConfigOldMap.Value;
+            if (oldMap == OldMap.OnlyColor || oldMap == OldMap.ColorAndMapScreen)
             {
                 MapTile tile = __instance.tiles[posX, posZ];
                 if (tile != null)
@@ -115,9 +143,27 @@ namespace LegacyUIs.Patches
                     var renderer = tile.SpriteRenderer;
                     if (renderer != null)
                     {
-                        Color color = renderer.color;
-                        color.a = 1f;
-                        renderer.color = color;
+                        bool success = false;
+                        foreach (var i in roomColors)
+                        {
+                            if (room == null)
+                            {
+                                break;
+                            }
+                            else if (room.category == i.Key)
+                            {
+                                room.color = i.Value;
+                                renderer.color = i.Value;
+                                success = true;
+                                break;
+                            }
+                        }
+                        if (!success)
+                        {
+                            Color color = renderer.color;
+                            color.a = 1f;
+                            renderer.color = color;
+                        }
                         renderer.sharedMaterial = OpaqueMat;
                         renderer.enabled = true;
                     }
@@ -128,7 +174,8 @@ namespace LegacyUIs.Patches
         [HarmonyPatch("AddArrow", new Type[] { typeof(Entity), typeof(Color) }), HarmonyPrefix]
         public static bool AddArrowPrefix(Entity target)
         {
-            if (BasePlugin.Instance.ConfigOldMapColor.Value && target.gameObject.TryGetComponent<PlayerManager>(out _))
+            OldMap oldMap = BasePlugin.Instance.ConfigOldMap.Value;
+            if ((oldMap == OldMap.OnlyColor || oldMap == OldMap.ColorAndMapScreen) && target.gameObject.TryGetComponent<PlayerManager>(out _))
             {
                 return false;
             }

@@ -23,16 +23,16 @@ namespace LegacyUIs.Patches
         [HarmonyPatch("Start"), HarmonyPrefix]
         public static void StartPrefix(MainMenu __instance)
         {
-
-            if (BasePlugin.Instance.ConfigOldMapColor.Value)
+            "Bro This Useless.".ToString();
+            /*if (BasePlugin.Instance.ConfigOldMapColor.Value)
             {
                 foreach (RoomAsset asset in Resources.FindObjectsOfTypeAll<RoomAsset>())
                 {
                     bool success = false;
-
+                    BasePlugin.Log($"\'{asset.name}\'");
                     foreach (string i in whiteRooms)
                     {
-                        if (asset.name.Contains(i) && asset.name.StartsWith(i.Substring(0, 1)))
+                        if (asset.name.Contains(i))
                         {
                             asset.color = Color.white;
                             success = true;
@@ -55,8 +55,12 @@ namespace LegacyUIs.Patches
                     {
                         asset.color = Color.gray;
                     }
+                    else if (asset.name.Contains("Hall"))
+                    {
+                        asset.color = Color.green;
+                    }
                 }
-            }
+            }*/
         }
     }
 }
